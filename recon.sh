@@ -1,6 +1,7 @@
 #! /bin/bash
 
 # TODO: check if all tools are installed
+# TODO: use domain_list.txt instead of one single domain as input
 
 # Just some colors
 NORMAL=$(tput sgr0)
@@ -25,7 +26,7 @@ OUT_DIR=$(readlink -f "$2")
 if [ "$#" -ne 2 ]
 then
 	echo "Please provide only two arguments. Domain and output directory"
-	echo "Example usage: ./recon.sh mydomain.com /tmp/recon"
+	echo "Example usage: ./recon.sh domain.com /home/myuser/hacking/domain.com/recon"
 	exit 1
 fi
 
@@ -56,8 +57,8 @@ assetfinder -subs-only ${DOMAIN} > ${OUT_DIR}/assetfinder.txt
 cat ${OUT_DIR}/assetfinder.txt | anew ${OUT_DIR}/all_sub.txt
 
 # dnsenum
-dnsenum --enum ${DOMAIN} | tee -a ${OUT_DIR}/dnsenum_tmp.txt
-cat ${OUT_DIR}/dnsenum_tmp.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
+dnsenum --enum ${DOMAIN} | tee -a ${OUT_DIR}/dnsenum.txt
+cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
 
 # dnsx
 # TODO:Not working as expected. Check Wordlist
