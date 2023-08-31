@@ -1,6 +1,5 @@
 #! /bin/bash
 
-# TODO: check if all tools are installed
 # TODO: use domain_list.txt instead of one single domain as input
 
 # Just some colors
@@ -29,6 +28,12 @@ then
 	echo "Example usage: ./recon.sh domain.com /home/myuser/hacking/domain.com/recon"
 	exit 1
 fi
+
+# Check for tools
+for tool in anew assetfinder dnsenum haktrails subfinder nmap sublist3r amass aquatone httpx # dnsx
+do
+	command -v ${tool} >/dev/null 2>&1 || { echo >&2 "This script requires ${tool} but it's not installed. Aborting."; exit 1; }
+done
 
 # Checking output directory
 if [[ ! -d "${OUT_DIR}" ]]
@@ -102,3 +107,6 @@ for sub in $(cat ${OUT_DIR}/all_sub.txt) ; do nmap -Pn --top-ports 1000 -o ${OUT
 # nmap vuln
 # TODO: Check if this script is worth it here, maybe move to vuln_scan.sh?
 #for sub in $(cat ${OUT_DIR}/all_sub.txt) ; do nmap -Pn --top-ports 1000 --script "vuln" -o ${OUT_DIR}/nmap/nmap_vuln_${sub}.txt ${sub}; done
+
+printf "${GREEN}Script complete! Happy hunting! ${NORMAL}\n"
+exit 0
