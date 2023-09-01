@@ -30,7 +30,7 @@ then
 fi
 
 # Check for tools
-for tool in anew assetfinder dnsenum haktrails subfinder nmap sublist3r amass aquatone httpx # dnsx
+for tool in anew assetfinder dnsenum haktrails subfinder nmap sublist3r amass aquatone httpx knockpy # dnsx
 do
 	command -v ${tool} >/dev/null 2>&1 || { echo >&2 "This script requires ${tool} but it's not installed. Aborting."; exit 1; }
 done
@@ -88,6 +88,15 @@ cat ${OUT_DIR}/sublist3r.txt | anew ${OUT_DIR}/all_sub.txt
 # amass
 amass enum -ip -d ${DOMAIN} -o ${OUT_DIR}/amass_enum.txt
 cat ${OUT_DIR}/amass_enum.txt | anew ${OUT_DIR}/all_sub.txt
+
+# knockpy
+mkdir -p ${OUT_DIR}/knockpy_tmp
+knockpy ${DOMAIN} -o ${OUT_DIR}/knockpy_tmp
+knockpy --csv ${OUT_DIR}/knockpy_tmp/*
+cat ${OUT_DIR}/knockpy_tmp/*.csv  | awk -F ';' '{print $3}' | anew ${OUT_DIR}/all_sub.txt
+mv ${OUT_DIR}/knockpy_tmp/*json ${OUT_DIR}/knockpy.json
+mv ${OUT_DIR}/knockpy_tmp/*csv ${OUT_DIR}/knockpy.csv
+rmdir ${OUT_DIR}/knockpy_tmp
 
 # aquatone
 mkdir -p ${OUT_DIR}/aquatone
