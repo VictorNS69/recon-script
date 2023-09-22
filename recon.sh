@@ -88,7 +88,7 @@ cat ${OUT_DIR}/sublist3r.txt | anew ${OUT_DIR}/all_sub.txt
 
 # amass
 amass enum -ip -d ${DOMAIN} -o ${OUT_DIR}/amass_enum.txt
-cat ${OUT_DIR}/amass_enum.txt | anew ${OUT_DIR}/all_sub.txt
+cat ${OUT_DIR}/amass_enum.txt | awk '{print $1}' |  anew ${OUT_DIR}/all_sub.txt
 
 # knockpy
 mkdir -p ${OUT_DIR}/knockpy_tmp
