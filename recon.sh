@@ -62,19 +62,20 @@ assetfinder -subs-only ${DOMAIN} > ${OUT_DIR}/assetfinder.txt
 cat ${OUT_DIR}/assetfinder.txt | anew ${OUT_DIR}/all_sub.txt
 
 # dnsenum
-dnsenum --enum ${DOMAIN} | tee -a ${OUT_DIR}/dnsenum.txt
-cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
+dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt | tee -a ${OUT_DIR}/dnsenum.txt
+#cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
+cat ${OUT_DIR}/dnsenum_sub.txt | anew ${OUT_DIR}/all_sub.txt
 
 # dnsx
 # TODO:Not working as expected. Check Wordlist
 #dnsx -d ${DOMAIN} -o ${OUT_DIR}/dnsx.txt -w ~/Hacking/tools/SecLists/Discovery/DNS/dns-Jhaddix.txt
 
 # haktrails subdomains
-echo ${DOMAIN} | haktrails  subdomains -o ${OUT_DIR}/haktrails-subdomains.txt
+echo ${DOMAIN} | haktrails  subdomains -o list | tee -a ${OUT_DIR}/haktrails-subdomains.txt
 cat ${OUT_DIR}/haktrails-subdomains.txt | anew ${OUT_DIR}/all_sub.txt
 
 # haktrails associateddomains
-echo ${DOMAIN} | haktrails  associateddomains -o ${OUT_DIR}/haktrails-associateddomains.txt
+echo ${DOMAIN} | haktrails  associateddomains -o list | tee -a ${OUT_DIR}/haktrails-associateddomains.txt
 cat ${OUT_DIR}/haktrails-associateddomains.txt | anew ${OUT_DIR}/all_sub.txt
 
 # subfinder
@@ -110,8 +111,8 @@ cat ${OUT_DIR}/aquatone/aquatone_urls.txt  |  httpx -silent -ports 66,80,81,443,
 cat ${OUT_DIR}/all_sub.txt  |  httpx -silent -ports 66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8000,8080,8100,8443,8888,30821 -status-code -cdn -ip -fr -o ${OUT_DIR}/httpx_all_sub.txt
 
 # nmap full
-mkdir -p ${OUT_DIR}/nmap
-for sub in $(cat ${OUT_DIR}/all_sub.txt) ; do nmap -Pn --top-ports 1000 -o ${OUT_DIR}/nmap/nmap_${sub}.txt ${sub}; done
+#mkdir -p ${OUT_DIR}/nmap
+#for sub in $(cat ${OUT_DIR}/all_sub.txt) ; do nmap -Pn --top-ports 1000 -o ${OUT_DIR}/nmap/nmap_${sub}.txt ${sub}; done
 
 # nmap vuln
 # TODO: Check if this script is worth it here, maybe move to vuln_scan.sh?
