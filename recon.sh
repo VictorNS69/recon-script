@@ -83,7 +83,7 @@ subfinder -silent -all -d ${DOMAIN} -oI ${OUT_DIR}/subfinder.txt
 cat ${OUT_DIR}/subfinder.txt | anew ${OUT_DIR}/all_sub.txt
 
 # sublist3r
-sublist3r -d ${DOMAIN} -b -o ${OUT_DIR}/sublist3r.txt
+sublist3r -d ${DOMAIN} -o ${OUT_DIR}/sublist3r.txt
 cat ${OUT_DIR}/sublist3r.txt | anew ${OUT_DIR}/all_sub.txt
 
 # amass
