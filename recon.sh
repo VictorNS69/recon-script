@@ -91,8 +91,8 @@ mv ${OUT_DIR}/knockpy_tmp/*csv ${OUT_DIR}/knockpy.csv
 rmdir ${OUT_DIR}/knockpy_tmp
 
 # dnsenum
-# this is way too slow
-dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt | tee -a ${OUT_DIR}/dnsenum.txt
+# without --noreverse, tool is kinda slow
+dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt --noreverse | tee -a ${OUT_DIR}/dnsenum.txt
 #cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
 cat ${OUT_DIR}/dnsenum_sub.txt | anew ${OUT_DIR}/all_sub.txt
 
