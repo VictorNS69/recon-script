@@ -61,15 +61,6 @@ fi
 assetfinder -subs-only ${DOMAIN} > ${OUT_DIR}/assetfinder.txt
 cat ${OUT_DIR}/assetfinder.txt | anew ${OUT_DIR}/all_sub.txt
 
-# dnsenum
-dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt | tee -a ${OUT_DIR}/dnsenum.txt
-#cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
-cat ${OUT_DIR}/dnsenum_sub.txt | anew ${OUT_DIR}/all_sub.txt
-
-# dnsx
-# TODO:Not working as expected. Check Wordlist
-#dnsx -d ${DOMAIN} -o ${OUT_DIR}/dnsx.txt -w ~/Hacking/tools/SecLists/Discovery/DNS/dns-Jhaddix.txt
-
 # haktrails subdomains
 echo ${DOMAIN} | haktrails  subdomains -o list | tee -a ${OUT_DIR}/haktrails-subdomains.txt
 cat ${OUT_DIR}/haktrails-subdomains.txt | anew ${OUT_DIR}/all_sub.txt
@@ -79,7 +70,7 @@ echo ${DOMAIN} | haktrails  associateddomains -o list | tee -a ${OUT_DIR}/haktra
 cat ${OUT_DIR}/haktrails-associateddomains.txt | anew ${OUT_DIR}/all_sub.txt
 
 # subfinder
-subfinder -silent -all -d ${DOMAIN} -oI ${OUT_DIR}/subfinder.txt
+subfinder -silent -all -nW -d ${DOMAIN} -oI ${OUT_DIR}/subfinder.txt
 cat ${OUT_DIR}/subfinder.txt | anew ${OUT_DIR}/all_sub.txt
 
 # sublist3r
@@ -98,6 +89,16 @@ cat ${OUT_DIR}/knockpy_tmp/*.csv  | awk -F ';' '{print $3}' | anew ${OUT_DIR}/al
 mv ${OUT_DIR}/knockpy_tmp/*json ${OUT_DIR}/knockpy.json
 mv ${OUT_DIR}/knockpy_tmp/*csv ${OUT_DIR}/knockpy.csv
 rmdir ${OUT_DIR}/knockpy_tmp
+
+# dnsenum
+# this is way too slow
+dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt | tee -a ${OUT_DIR}/dnsenum.txt
+#cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
+cat ${OUT_DIR}/dnsenum_sub.txt | anew ${OUT_DIR}/all_sub.txt
+
+# dnsx
+# TODO:Not working as expected. Check Wordlist
+#dnsx -d ${DOMAIN} -o ${OUT_DIR}/dnsx.txt -w ~/Hacking/tools/SecLists/Discovery/DNS/dns-Jhaddix.txt
 
 # aquatone
 mkdir -p ${OUT_DIR}/aquatone
