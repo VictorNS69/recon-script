@@ -70,8 +70,8 @@ echo ${DOMAIN} | haktrails  associateddomains -o list | tee -a ${OUT_DIR}/haktra
 cat ${OUT_DIR}/haktrails-associateddomains.txt | anew ${OUT_DIR}/all_sub.txt
 
 # subfinder
-subfinder -silent -all -nW -d ${DOMAIN} -oI ${OUT_DIR}/subfinder.txt
-cat ${OUT_DIR}/subfinder.txt | anew ${OUT_DIR}/all_sub.txt
+subfinder -silent -all -nW -d ${DOMAIN} -oI -o ${OUT_DIR}/subfinder.txt
+cat ${OUT_DIR}/subfinder.txt | awk -F ',' '{print $1}' | anew ${OUT_DIR}/all_sub.txt
 
 # sublist3r
 sublist3r -d ${DOMAIN} -o ${OUT_DIR}/sublist3r.txt
