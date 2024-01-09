@@ -78,7 +78,7 @@ sublist3r -d ${DOMAIN} -o ${OUT_DIR}/sublist3r.txt
 cat ${OUT_DIR}/sublist3r.txt | anew ${OUT_DIR}/all_sub.txt
 
 # amass
-amass enum -d ${DOMAIN} -o ${OUT_DIR}/amass_enum.txt
+amass enum -d ${DOMAIN} -o ${OUT_DIR}/amass_enum.txt -nocolor
 cat ${OUT_DIR}/amass_enum.txt | grep FQDN | awk '{print $1}' |  anew ${OUT_DIR}/all_sub.txt
 
 # knockpy
