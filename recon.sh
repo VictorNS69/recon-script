@@ -95,6 +95,8 @@ rmdir ${OUT_DIR}/knockpy_tmp
 dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt --noreverse | tee -a ${OUT_DIR}/dnsenum.txt
 #cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
 cat ${OUT_DIR}/dnsenum_sub.txt | anew ${OUT_DIR}/all_sub.txt
+# IP file that dnsenum generates
+mv *_ips.txt ${OUT_DIR}/dnsenum_ips.txt
 
 # dnsx
 # TODO:Not working as expected. Check Wordlist
