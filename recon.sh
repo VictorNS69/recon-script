@@ -30,7 +30,7 @@ then
 fi
 
 # Check for tools
-for tool in anew assetfinder dnsenum haktrails subfinder nmap sublist3r amass aquatone httpx knockpy # dnsx
+for tool in anew assetfinder dnsenum haktrails subfinder nmap sublist3r amass chromium aquatone httpx knockpy # dnsx
 do
 	command -v ${tool} >/dev/null 2>&1 || { echo >&2 "This script requires ${tool} but it's not installed. Aborting."; exit 1; }
 done
