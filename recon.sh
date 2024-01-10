@@ -114,8 +114,7 @@ cat ${OUT_DIR}/all_sub.txt | aquatone -silent -out ${OUT_DIR}/aquatone/ -ports l
 for sub in $(cat ${OUT_DIR}/all_sub.txt); do host ${sub} | grep "is an alias"  >> ${OUT_DIR}/aliases.txt ; done
 
 # httpx web ports
-cat ${OUT_DIR}/aquatone/aquatone_urls.txt  |  httpx -silent -ports 66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8000,8080,8100,8443,8888,30821 -status-code -cdn -cname -ip -fr -cl -td -o ${OUT_DIR}/httpx_aquatone_urls.txt
-cat ${OUT_DIR}/all_sub.txt  |  httpx -silent -ports 66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8000,8080,8100,8443,8888,30821 -status-code -cdn -cname -ip -fr -cl -td -o ${OUT_DIR}/httpx_all_sub.txt
+cat ${OUT_DIR}/aquatone/aquatone_urls.txt ${OUT_DIR}/all_sub.txt | sed -r 's/http[s]*:\/\///g' | sort -u |  httpx -silent -ports 66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8000,8080,8100,8443,8888,30821 -status-code -cdn -cname -ip -fr -cl -td -o ${OUT_DIR}/httpx.txt
 
 # nmap full
 #mkdir -p ${OUT_DIR}/nmap
