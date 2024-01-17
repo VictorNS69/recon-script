@@ -96,8 +96,8 @@ dnsenum --nocolor --enum ${DOMAIN} --subfile ${OUT_DIR}/dnsenum_sub.txt --noreve
 #cat ${OUT_DIR}/dnsenum.txt | grep ${DOMAIN} | awk '{print $1}' | grep ${DOMAIN} | tr -d '_' | sed 's/\.$//' | anew ${OUT_DIR}/all_sub.txt 
 cat ${OUT_DIR}/dnsenum_sub.txt | awk -v DOMAIN=${DOMAIN} '{print $1"."DOMAIN}' | anew ${OUT_DIR}/all_sub.txt
 # IP file that dnsenum generates
-if [[ -f "*_ips.txt" ]]; then
-	mv *_ips.txt ${OUT_DIR}/dnsenum_ips.txt
+if [[ -f "${DOMAIN}_ips.txt" ]]; then
+	mv ${DOMAIN}_ips.txt ${OUT_DIR}/dnsenum_ips.txt
 fi
 
 
