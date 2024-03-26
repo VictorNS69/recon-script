@@ -30,15 +30,15 @@ then
 fi
 
 # Check for tools
-for tool in nmap nuclei
+for tool in nmap nuclei #
 do
 	command -v ${tool} >/dev/null 2>&1 || { echo >&2 "This script requires ${tool} but it's not installed. Aborting."; exit 1; }
 done
 
 # sudo needed for nmap
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-    echo "Run the script as sudo (Nmap will need it)"
-    exit
+	printf "${YELLOW}You will need privileges for Nmap\n${NORMAL}"
+	printf "${YELLOW}Your password will be asked by Nmap\n${NORMAL}"
 fi
 
 # Checking output directory
@@ -65,15 +65,15 @@ fi
 
 # nmap ports
 mkdir -p ${OUT_DIR}/nmap
-sudo nmap -p- --open -sS --min-rate 3000 -v -n -Pn -oN ${OUT_DIR}/nmap_ports_${DOMAIN}.txt ${DOMAIN}
+sudo nmap -p- --open -sS --min-rate 3000 -v -n -Pn -oN ${OUT_DIR}/nmap/nmap_tcp_ports.txt ${DOMAIN}
 
 # nmap scripts/recon
-sudo nmap -Pn -sCV -p $(cat ${OUT_DIR}/nmap_ports_${DOMAIN}.txt | grep open | sed '1d' | awk -F '/' '{print $1}' | tr '\n' ',' | sed '$ s/.$//') -oN ${OUT_DIR}/nmap_${DOMAIN}.txt ${DOMAIN} 
+sudo nmap -Pn -sCV -p $(cat ${OUT_DIR}/nmap/nmap_tcp_ports,txt | grep open | sed '1d' | awk -F '/' '{print $1}' | tr '\n' ',' | sed '$ s/.$//') -oN ${OUT_DIR}/nmap/nmap_tcp.txt ${DOMAIN} 
 
 # UDP scan (only 100 ports)
-nmap -Pn -sU --min-rate 3000 --open --top-ports 100 -oN ${OUT_DIR}/nmap_udp_${DOMAIN}.txt ${DOMAIN}
+sudo nmap -Pn -sU --min-rate 3000 --open --top-ports 100 -oN ${OUT_DIR}/nmap/nmap_udp.txt ${DOMAIN}
 
 # nuclei
-nuclei -u ${DOMAIN} -rl 350 -c 10 -nmhe -o ${OUT_DIR}/nuclei_${DOMAIN}.txt
+nuclei -u ${DOMAIN} -rl 350 -c 10 -nmhe -o ${OUT_DIR}/nuclei.txt
 printf "${GREEN}Script complete! Happy hunting! ${NORMAL}\n"
 exit 0
