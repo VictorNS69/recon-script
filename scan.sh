@@ -68,7 +68,7 @@ mkdir -p ${OUT_DIR}/nmap
 sudo nmap -p- --open -sS --min-rate 3000 -v -n -Pn -oN ${OUT_DIR}/nmap/nmap_tcp_ports.txt ${DOMAIN}
 
 # nmap scripts/recon
-sudo nmap -Pn -sCV -p $(cat ${OUT_DIR}/nmap/nmap_tcp_ports,txt | grep open | sed '1d' | awk -F '/' '{print $1}' | tr '\n' ',' | sed '$ s/.$//') -oN ${OUT_DIR}/nmap/nmap_tcp.txt ${DOMAIN} 
+sudo nmap -Pn -sCV -p $(cat ${OUT_DIR}/nmap/nmap_tcp_ports.txt | grep open | sed '1d' | awk -F '/' '{print $1}' | tr '\n' ',' | sed '$ s/.$//') -oN ${OUT_DIR}/nmap/nmap_tcp.txt ${DOMAIN} 
 
 # UDP scan (only 100 ports)
 sudo nmap -Pn -sU --min-rate 3000 --open --top-ports 100 -oN ${OUT_DIR}/nmap/nmap_udp.txt ${DOMAIN}
