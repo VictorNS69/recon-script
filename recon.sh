@@ -30,7 +30,7 @@ then
 fi
 
 # Check for tools
-for tool in anew assetfinder dnsenum haktrails subfinder nmap sublist3r amass chromium aquatone httpx knockpy # dnsx
+for tool in anew assetfinder dnsenum haktrails subfinder sublist3r amass chromium aquatone httpx knockpy # nmap dnsx
 do
 	command -v ${tool} >/dev/null 2>&1 || { echo >&2 "This script requires ${tool} but it's not installed. Aborting."; exit 1; }
 done
@@ -115,14 +115,6 @@ for sub in $(cat ${OUT_DIR}/all_sub.txt); do host ${sub} | grep "is an alias"  >
 
 # httpx web ports
 cat ${OUT_DIR}/aquatone/aquatone_urls.txt ${OUT_DIR}/all_sub.txt | sed -r 's/http[s]*:\/\///g' | sed -r 's/\///g' | awk -F ':' '{print $1}' | sort -u | httpx -silent -ports 66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8000,8080,8100,8443,8888,30821 -status-code -cdn -cname -ip -fr -cl -td -o ${OUT_DIR}/httpx.txt
-
-# nmap full
-#mkdir -p ${OUT_DIR}/nmap
-#for sub in $(cat ${OUT_DIR}/all_sub.txt) ; do nmap -Pn --top-ports 1000 -o ${OUT_DIR}/nmap/nmap_${sub}.txt ${sub}; done
-
-# nmap vuln
-# TODO: Check if this script is worth it here, maybe move to vuln_scan.sh?
-#for sub in $(cat ${OUT_DIR}/all_sub.txt) ; do nmap -Pn --top-ports 1000 --script "vuln" -o ${OUT_DIR}/nmap/nmap_vuln_${sub}.txt ${sub}; done
 
 printf "${GREEN}Script complete! Happy hunting! ${NORMAL}\n"
 exit 0
